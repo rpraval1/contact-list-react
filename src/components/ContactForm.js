@@ -25,6 +25,27 @@ class ContactForm extends Component {
 
   }
 
+  handleSaveClick(e){
+    e.preventDefault()
+    var newContact = {}
+    newContact.fullName = localStorage.getItem('fullName')
+    newContact.email = localStorage.getItem('email')
+    var contacts = [];
+    if (localStorage.getItem("contacts") === null) {
+      contacts = []
+    } else {
+      contacts = localStorage.getItem("contacts")
+    }
+
+    contacts.push(newContact)
+    localStorage.setItem('contacts',contacts)
+    this.setState({
+      "fullName":"",
+      "email":""
+    })
+    browserHistory.push('/');
+  }
+
   componentWillMount(){
     var fullName = localStorage.getItem('fullName')
     var email = localStorage.getItem('email')
@@ -71,7 +92,8 @@ class ContactForm extends Component {
                 onClick={this.handleEditClick.bind(this)}>Edit</button>
               { showSave
                 ?
-                <button className="btn btn-default">Save</button>
+                <button className="btn btn-default"
+                  onClick={this.handleSaveClick.bind(this)}>Save</button>
                 :
                 ''
               }
